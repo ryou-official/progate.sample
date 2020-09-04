@@ -2,13 +2,25 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
+  height: 100%;
   font-family: "Hiragino Kaku Gothic ProN";
 }
 
 a {
-  text-decoration: none;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+ul,li,dl,dt,dd {
+  margin:0;
+  padding:0;
+  list-style: none;
 }
 
 .container {
@@ -19,7 +31,7 @@ a {
 
 .top-wrapper {
   padding: 180px 0 100px 0;
-  background-image: url(top.png);
+  background-image: url(https://prog-8.com/images/html/advanced/top.png);
   background-size: cover;
   color: white;
   text-align: center;
@@ -73,6 +85,10 @@ a {
 
 .fa {
   margin-right: 5px;
+}
+
+.scroll-top {
+  cursor: pointer;
 }
 
 header {
@@ -171,6 +187,10 @@ header {
   box-shadow: 0px 7px #1a7940;
 }
 
+.message:hover {
+  background-color: #5dca88;
+}
+
 .message:active {
   position: relative;
   top: 7px;
@@ -197,11 +217,168 @@ footer {
   font-size: 25px;
   padding: 21px 0;
   display: none;
+  cursor: pointer;
 }
 
 .clear {
   clear: left;
 }
+
+/*オーバーレイ設定*/
+.overlay {
+  content: "";
+  display: block;
+  width: 0;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity .5s, width 0s .5s, height 0s .5s;
+}
+
+.overlay.open {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+	transition: opacity .5s;
+}
+
+/*スライドメニュー*/
+
+#slide-menu {
+  width: 80%;
+	max-width: 300px;
+	height: calc(100vh - 65px);
+	position: fixed;
+	top: 65px;
+	right: 0;
+	z-index: 3;
+	background-color: #fafafa;
+
+
+	display: block;
+        transform: translateX(100%);
+        transition: transform 1s;
+
+}
+
+#slide-menu.active{
+        transform: translateX(0);
+    }
+
+#slide-menu h2 {
+  margin-left: 15%;
+  font-size: 1.5rem;
+  color: #18AA9D;
+}
+
+#slide-menu li {
+	line-height: 2rem;
+	margin: 1.5rem 0;
+	text-align: center;
+}
+
+#slide-menu li a {
+	position: relative;
+	display: inline-block;
+	font-size: 1rem;
+	letter-spacing: 0.075em;
+  color: rgba(34,49,52,0.9);
+}
+
+#slide-menu li a::after {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: #18AA9D;
+  transform: scale(0, 1);
+  transform-origin: left top;
+  transition: transform .3s;
+}
+
+#slide-menu li a:hover::after {
+  transform: scale(1, 1);
+}
+
+#slide-menu li .contact-btn {
+	margin-bottom: 0.5rem;
+	font-size: 1.1rem;
+}
+
+/*ログインモーダル*/
+.login-modal-wrapper, .signup-modal-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 5;
+  display: none;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: #e6ecf0;
+  padding: 20px 0 40px;
+  border-radius: 10px;
+  max-width: 450px;
+  width: 90%;
+  height: auto;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.modal .fa-times {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: rgba(128, 128, 128, 0.46);
+  cursor: pointer;
+}
+
+.modal .fa-times:hover {
+  color: #d7003a;
+}
+
+#signup-form, #login-form {
+  width: 100%;
+}
+
+#signup-form h2, #login-form h2 {
+  color: #5f5d60;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+}
+
+#signup-form input, #login-form input {
+  width: 320px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  padding: 12px 12px;
+  border: 1px solid #d0d5d8;
+  border-radius: 5px;
+}
+
+#submit-btn {
+  display: inline-block;
+  padding: 14px 140px;
+  background-color: #5dca88;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
 
 @media all and (max-width: 1000px) {
   .lesson {
@@ -233,7 +410,7 @@ footer {
     display: none;
   }
 
-  .menu-icon {
+  header span.fa-bars {
     display: block;
   }
 
@@ -268,4 +445,29 @@ footer {
   .message-wrapper .btn {
     width: 100%;
   }
+}
+
+@media all and (max-width: 495px) {
+  /*アイコン*/
+  .modal .fa-times {
+    font-size: 1.75em;
+  }
+
+  /*見出し*/
+  #signup-form h2, #login-form h2 {
+    font-size: 1.3rem;
+  }
+
+  /*インプット*/
+  #signup-form input, #login-form input {
+    width: 85%;
+  }
+
+  /*ボタン*/
+  #submit-btn {
+    box-sizing: border-box;
+    width: 85%;
+    padding: 14px 0;
+  }
+
 }
